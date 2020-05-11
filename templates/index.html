@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Atom Structure Raw Data Export</title>
+{#    <script type="text/javascript" src="{{ url_for('static', filename='index.css') }}"></script>#}
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
 </head>
 <body>
 <h1> Upload You Raw Data File Below</h1>
@@ -10,7 +12,10 @@
     <fieldset>
         <input name="rawFile" id="rawFile" type="file">
     </fieldset>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Upload The File">
 </form>
+<button style="{{ styles }}" id="download" onclick="window.open('{{ export_file }}')" formtarget="_blank">
+    Ready to Export!
+</button>
 </body>
 </html>

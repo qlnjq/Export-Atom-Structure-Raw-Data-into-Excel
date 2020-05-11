@@ -1,13 +1,11 @@
 from flask import Flask, request, render_template
 import os
 import requests
-from openpyxl import Workbook
-# import xlrd
-import csv
 import pandas as pd
 
 app = Flask(__name__)
-
+STATIC_DIR = 'static/temp'
+app.config['STATIC_DIR'] = STATIC_DIR
 
 @app.route('/')
 def index():
@@ -27,20 +25,19 @@ def upload_file():
                 url = "https://neelpatel05.pythonanywhere.com/element/atomicnumber"
                 payload = {'atomicnumber': raw_data[0]}
                 element_data = requests.get(url, params=payload).json()
-                print("element_data")
-                print(element_data)
 
                 export_data = raw_data
-                export_data[0] = element_data['symbol']
-                print("export_data")
                 print(export_data)
+                export_data[0] = element_data['symbol']
                 data.append(export_data)
+        print("successfully appended data")
         print(data)
 
         new_data = pd.DataFrame(data, columns=['element', 'x', 'y', 'z']).set_index('element')
-        new_data.to_csv("test.csv", sep=',')
+        path_to_save = os.path.join(app.config['STATIC_DIR'], "output.csv")
+        new_data.to_csv(path_to_save, sep=',')
 
-    # return render_template('index.html')
+    return render_template('index.html', export_file=path_to_save, styles="background-color: blueviolet; color: white; display: block !important")
 
 
 if __name__ == '__main__':

@@ -17,6 +17,11 @@ def index():
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == "POST":
+        # rawData = request.files['rawFile'].read()
+        # print(rawData)  # byte
+        # print(rawData.decode('utf-8'))  # strings
+        # rawData2 = "".join(map(chr, rawData))
+        # print(rawData2)
         data = []
         reader = csv.reader(request.files['rawFile'].read().decode("utf-8").split('\n'), dialect='excel')
         for row in reader:
